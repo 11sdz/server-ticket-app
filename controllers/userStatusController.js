@@ -3,10 +3,10 @@ const User = require('../models/User');
 
 const updateUserStatus = async (req, res) => {
     try {
-        const { userId, status } = req.body;
+        const { userId, status, lastUpdated } = req.body;
         const userStatus = await UserStatus.findOneAndUpdate(
             { userId },
-            { firstName: req.body.firstName, lastName: req.body.lastName, status },
+            { firstName: req.body.firstName, lastName: req.body.lastName, status, lastUpdated },
             { new: true, upsert: true }
         );
         res.status(200).json(userStatus);
