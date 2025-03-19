@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const UserStatus = require("../models/UserStatus");
 
 const register = async (req, res) => {
     const { username, password, firstName, lastName, email, passkey } =
@@ -33,6 +34,16 @@ const register = async (req, res) => {
         });
 
         await newUser.save();
+
+        // Create an initial status document for the user (initial status will be "offline")
+        const newStatus = new UserStatus({
+            userId: newUser._id,
+            status: 'offline',  // Initial status can be 'offline' or 'in-work' depending on your business logic
+        });
+
+        // Save the status document
+        await newStatus.save();
+
         res.status(201).json({ message: "User registered successfully" });
     } catch (error) {
         console.log(error);

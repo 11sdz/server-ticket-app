@@ -5,6 +5,7 @@ const connectDB = require("./config/db");
 const ticketRoutes = require("./routes/ticketRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const userStatusRoutes = require("./routes/userStatusRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -26,6 +27,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.use("/api/user", userRoutes);
+
+app.use("/api/userStatus", userStatusRoutes);
 
 
 app.get("/", (req, res) => {
