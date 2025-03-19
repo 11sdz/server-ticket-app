@@ -38,6 +38,8 @@ const register = async (req, res) => {
         // Create an initial status document for the user (initial status will be "offline")
         const newStatus = new UserStatus({
             userId: newUser._id,
+            firstName,
+            lastName,
             status: 'offline',  // Initial status can be 'offline' or 'in-work' depending on your business logic
         });
 

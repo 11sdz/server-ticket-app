@@ -6,7 +6,7 @@ const updateUserStatus = async (req, res) => {
         const { userId, status } = req.body;
         const userStatus = await UserStatus.findOneAndUpdate(
             { userId },
-            { status },
+            { firstName: req.body.firstName, lastName: req.body.lastName, status },
             { new: true, upsert: true }
         );
         res.status(200).json(userStatus);
