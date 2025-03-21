@@ -11,7 +11,8 @@ const TicketSchema = new mongoose.Schema({
   text: { type: String, required: true }, // Text of the ticket
   agent: { type: String, default: "" }, // Agent assigned to the ticket, default empty
   status: { type: String, default: "open" }, // Default status is open
-  createdAt: { type: Date, default: Date.now } // Timestamp when the ticket was created
+  createdAt: { type: Date, default: Date.now }, // Timestamp when the ticket was created
+  generatedTitle: { type: String, default: "" }, // Header for the ticket
 });
 
 module.exports = mongoose.model("Ticket", TicketSchema);

@@ -31,7 +31,6 @@ app.use("/api/user", userRoutes);
 app.use("/api/userStatus", userStatusRoutes);
 
 
-
 app.get("/", (req, res) => {
     res.send("Server is running");
 });
