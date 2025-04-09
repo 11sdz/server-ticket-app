@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Ticket = require("../models/Ticket");
 require("dotenv").config();
 
@@ -40,13 +41,22 @@ const getTickets = async (req, res) => {
 
 const patchTicket = async (req, res) => {
     try {
-        const { ticketId } = req.params; // Extract ticketId from request parameters
+        const { _id } = req.params; // Extract ticketId from request parameters
         const updates = req.body; // Extract updates from request body
 
-        const updatedTicket = await Ticket.findByIdAndUpdate(ticketId, updates, {
-            new: true,
-            runValidators: true,
-        });
+        // Ensure the ticketId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return res.status(400).json({ error: "Invalid ticket ID" });
+        }
+
+        const updatedTicket = await Ticket.findByIdAndUpdate(
+            _id,
+            updates,
+            {
+                new: true,
+                runValidators: true,
+            }
+        );
 
         if (!updatedTicket) {
             return res.status(404).json({ error: "Ticket not found" });
@@ -56,6 +66,6 @@ const patchTicket = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
-module.exports = { createTicket, getTickets,patchTicket };
+module.exports = { createTicket, getTickets, patchTicket };
