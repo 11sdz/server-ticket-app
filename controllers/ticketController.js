@@ -38,4 +38,24 @@ const getTickets = async (req, res) => {
     }
 };
 
-module.exports = { createTicket, getTickets };
+const patchTicket = async (req, res) => {
+    try {
+        const { ticketId } = req.params; // Extract ticketId from request parameters
+        const updates = req.body; // Extract updates from request body
+
+        const updatedTicket = await Ticket.findByIdAndUpdate(ticketId, updates, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!updatedTicket) {
+            return res.status(404).json({ error: "Ticket not found" });
+        }
+
+        res.status(200).json(updatedTicket);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+module.exports = { createTicket, getTickets,patchTicket };

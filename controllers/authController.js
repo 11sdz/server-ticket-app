@@ -25,7 +25,7 @@ const register = async (req, res) => {
 
         // Include all required fields in User
         const newUser = new User({
-            username,
+            username: username.toLowerCase(), // Store username in lowercase
             password: hashedPassword,
             firstName,
             lastName,
@@ -54,7 +54,8 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
+    const username = req.body.username.toLowerCase(); // Convert username to lowercase
+    const password = req.body.password;
 
     try {
         // Check if user exists
