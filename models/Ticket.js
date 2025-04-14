@@ -1,18 +1,26 @@
 const mongoose = require("mongoose");
 
+const CommentSchema = new mongoose.Schema({
+  authorId: { type: String, required: true }, // ניתן גם להשתמש ב-Type: mongoose.Schema.Types.ObjectId אם זה קשור למשתמשים
+  authorName: { type: String, required: true },
+  content: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now }
+});
+
 const TicketSchema = new mongoose.Schema({
   title: { type: String, required: true },
-  date: { type: String, required: true }, // Use Date type for ticket date
-  location: { type: String, required: true }, // Location as a string
-  officeNumber: { type: String, default: "" }, // office phone number
-  mobileNumber: { type: String, default: "" }, // String of phone numbers (strings)
-  personalName: { type: String, required: true }, // Creator as a string (can be name or ID)
-  position: { type: String, required: true }, // Position as a string
-  text: { type: String, required: true }, // Text of the ticket
-  agent: { type: String, default: "" }, // Agent assigned to the ticket, default empty
-  status: { type: String, default: "open" }, // Default status is open
-  createdAt: { type: Date, default: Date.now }, // Timestamp when the ticket was created
-  generatedTitle: { type: String, default: "" }, // Header for the ticket
+  date: { type: String, required: true },
+  location: { type: String, required: true },
+  officeNumber: { type: String, default: "" },
+  mobileNumber: { type: String, default: "" },
+  personalName: { type: String, required: true },
+  position: { type: String, required: true },
+  text: { type: String, required: true },
+  agent: { type: String, default: "" },
+  status: { type: String, default: "open" },
+  createdAt: { type: Date, default: Date.now },
+  generatedTitle: { type: String, default: "" },
+  comments: [CommentSchema]
 });
 
 module.exports = mongoose.model("Ticket", TicketSchema);

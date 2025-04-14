@@ -68,4 +68,41 @@ const patchTicket = async (req, res) => {
     }
 };
 
-module.exports = { createTicket, getTickets, patchTicket };
+const addCommentToTicket = async (req, res) => {
+    try {
+        const { _id } = req.params; // ticket ID
+        const { authorId, authorName, content } = req.body;
+
+        if (!mongoose.Types.ObjectId.isValid(_id)) {
+            return res.status(400).json({ error: "Invalid ticket ID" });
+        }
+
+        if (!authorId || !authorName || !content) {
+            return res.status(400).json({ error: "Missing comment data" });
+        }
+
+        const comment = {
+            authorId,
+            authorName,
+            content,
+            timestamp: new Date()
+        };
+
+        const updatedTicket = await Ticket.findByIdAndUpdate(
+            _id,
+            { $push: { comments: comment } },
+            { new: true }
+        );
+
+        if (!updatedTicket) {
+            return res.status(404).json({ error: "Ticket not found" });
+        }
+
+        res.status(200).json({ message: "Comment added", ticket: updatedTicket });
+    } catch (error) {
+        console.error("Error adding comment:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { createTicket, getTickets, patchTicket , addCommentToTicket };
