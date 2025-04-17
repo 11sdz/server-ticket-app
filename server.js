@@ -6,6 +6,7 @@ const ticketRoutes = require("./routes/ticketRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const userStatusRoutes = require("./routes/userStatusRoutes");
+const locationRoutes = require("./routes/locationRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -29,6 +30,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
 
 app.use("/api/userStatus", userStatusRoutes);
+
+app.use("/api/location", locationRoutes);
 
 
 app.get("/", (req, res) => {
