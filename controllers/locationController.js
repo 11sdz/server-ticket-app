@@ -34,10 +34,19 @@ const updateLocation = async (req, res) => {
 };
 
 const getAllLocations = async (req, res) => {
+    console.log('Received request to get all locations');
     try {
-        const locations = await Location.find().populate('user', 'firstName lastName');
+        const locations = await Location.find()
+            .populate('userId', 'firstName lastName');  // Populating the userId field with firstName and lastName
+
+        if (!locations || locations.length === 0) {
+            return res.status(404).json({ message: 'No locations found' });
+        }
+
+        console.log("Locations:", locations);
         return res.status(200).json(locations);
     } catch (error) {
+        console.error("Error:", error);
         return res.status(500).json({ message: 'Server error', error });
     }
 };
